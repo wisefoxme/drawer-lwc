@@ -1,5 +1,22 @@
 import { api, LightningElement } from "lwc";
+
 const MOTION_DURATION = 300;
+const SELECTORS = {
+  CONTAINER: '[data-id="container"]',
+  DRAWER: '[data-id="drawer"]',
+  CONTENT: '[data-id="content"]',
+  BACKDROP: '[data-id="backdrop"]'
+};
+
+const CSS_CLASSES = {
+  BACKDROP: "drawer-backdrop",
+  BACKDROP_OPEN: "drawer-backdrop_open",
+  BACKDROP_OPENING: "drawer-backdrop-motion_opening",
+  BACKDROP_CLOSING: "drawer-backdrop-motion_closing",
+  MOTION_OPENING: "drawer-motion_opening",
+  MOTION_CLOSING: "drawer-motion_closing",
+  SLDS_HIDE: "slds-hide"
+};
 
 export default class Drawer extends LightningElement {
   @api label = "";
@@ -20,136 +37,155 @@ export default class Drawer extends LightningElement {
   @api async open() {
     this._isDrawerOpen = true;
 
-    await Promise.resolve(); // Wait for the DOM to update
+    await Promise.resolve();
 
     this.setUpMutationObserver();
+    this.dispatchCustomEvent("draweropen");
 
-    const openEvent = new CustomEvent("draweropen", {
-      bubbles: true,
-      composed: true
-    });
+    const elements = this.getElements();
 
-    this.dispatchEvent(openEvent);
-
-    const container = this.template.querySelector('[data-id="container"]');
-
-    if (!container) {
+    if (!elements.container || !elements.drawer) {
       return;
     }
 
-    const drawer = this.template.querySelector('[data-id="drawer"]');
+    this.setupContentClickListener(elements.content);
+    this.animateBackdropOpen(elements.backdrop);
+    this.animateContainerOpen(elements.container);
 
-    if (!drawer) {
-      return;
-    }
-
-    const content = this.template.querySelector('[data-id="content"]');
-
-    if (content) {
-      content.addEventListener("click", this.handleClose.bind(this));
-    }
-
-    const backdrop = this.template.querySelector('[data-id="backdrop"]');
-
-    if (backdrop) {
-      backdrop.classList.add("drawer-backdrop-motion_opening");
-      backdrop.classList.remove("slds-hide");
-
-      setTimeout(function () {
-        backdrop.classList.add("drawer-backdrop");
-        backdrop.classList.add("drawer-backdrop_open");
-        backdrop.classList.remove("drawer-backdrop-motion_opening");
-      }, MOTION_DURATION);
-    }
-
-    container.classList.add("drawer-motion_opening");
-
-    setTimeout(function () {
-      container.classList.remove("drawer-motion_opening");
-    }, MOTION_DURATION);
-
-    drawer.focus();
+    elements.drawer.focus();
   }
 
-  handleClose() {
+  handleClose = () => {
     this.setUpMutationObserver();
+    this.dispatchCustomEvent("drawerclose");
 
-    const closeEvent = new CustomEvent("drawerclose", {
+    const container = this.template.querySelector(SELECTORS.CONTAINER);
+    if (container) {
+      container.classList.add(CSS_CLASSES.MOTION_CLOSING);
+    }
+  };
+
+  getElements() {
+    return {
+      container: this.template.querySelector(SELECTORS.CONTAINER),
+      drawer: this.template.querySelector(SELECTORS.DRAWER),
+      content: this.template.querySelector(SELECTORS.CONTENT),
+      backdrop: this.template.querySelector(SELECTORS.BACKDROP)
+    };
+  }
+
+  dispatchCustomEvent(eventName) {
+    const event = new CustomEvent(eventName, {
       bubbles: true,
       composed: true
     });
+    this.dispatchEvent(event);
+  }
 
-    this.dispatchEvent(closeEvent);
-
-    const container = this.template.querySelector('[data-id="container"]');
-
-    if (container) {
-      container.classList.add("drawer-motion_closing");
+  setupContentClickListener(content) {
+    if (content) {
+      content.addEventListener("click", this.handleClose);
     }
+  }
+
+  animateBackdropOpen(backdrop) {
+    if (!backdrop) {
+      return;
+    }
+
+    backdrop.classList.add(CSS_CLASSES.BACKDROP_OPENING);
+    backdrop.classList.remove(CSS_CLASSES.SLDS_HIDE);
+
+    setTimeout(() => {
+      backdrop.classList.add(CSS_CLASSES.BACKDROP, CSS_CLASSES.BACKDROP_OPEN);
+      backdrop.classList.remove(CSS_CLASSES.BACKDROP_OPENING);
+    }, MOTION_DURATION);
+  }
+
+  animateContainerOpen(container) {
+    container.classList.add(CSS_CLASSES.MOTION_OPENING);
+    setTimeout(() => {
+      container.classList.remove(CSS_CLASSES.MOTION_OPENING);
+    }, MOTION_DURATION);
+  }
+
+  animateBackdropClose(backdrop) {
+    if (!backdrop) {
+      return;
+    }
+
+    backdrop.classList.add(CSS_CLASSES.BACKDROP_CLOSING);
+
+    setTimeout(() => {
+      backdrop.classList.remove(
+        CSS_CLASSES.BACKDROP_CLOSING,
+        CSS_CLASSES.BACKDROP,
+        CSS_CLASSES.BACKDROP_OPEN
+      );
+      backdrop.classList.add(CSS_CLASSES.SLDS_HIDE);
+    }, MOTION_DURATION);
   }
 
   setUpMutationObserver() {
-    const container = this.template.querySelector('[data-id="container"]');
+    const container = this.template.querySelector(SELECTORS.CONTAINER);
 
     if (!container || this._observer) {
       return;
     }
 
-    const callback = (mutationList) => {
+    const callback = function (mutationList) {
       for (const mutation of mutationList) {
         if (
           mutation.type === "attributes" &&
           mutation.attributeName === "class"
         ) {
-          const isClosing = container.classList.contains(
-            "drawer-motion_closing"
-          );
-          const isOpening = container.classList.contains(
-            "drawer-motion_opening"
-          );
-
-          if (isOpening) {
-            this._isDrawerOpen = true;
-            container.classList.remove("drawer-motion_opening");
-            return;
-          }
-
-          if (isClosing) {
-            const backdrop = this.template.querySelector(
-              '[data-id="backdrop"]'
-            );
-
-            if (backdrop) {
-              backdrop.classList.add("drawer-backdrop-motion_closing");
-
-              setTimeout(function () {
-                backdrop.classList.remove("drawer-backdrop-motion_closing");
-                backdrop.classList.remove("drawer-backdrop");
-                backdrop.classList.remove("drawer-backdrop_open");
-                backdrop.classList.add("slds-hide");
-              }, MOTION_DURATION);
-            }
-
-            // es-lint-disable-next-line lwc/no-async-operation
-            setTimeout(
-              function () {
-                this._isDrawerOpen = false;
-                container.classList.remove("drawer-motion_closing");
-              }.bind(this),
-              MOTION_DURATION
-            );
-            return;
-          }
+          this.handleClassMutation(container);
         }
       }
-    };
+    }.bind(this);
 
-    const observer = new MutationObserver(callback);
+    this._observer = new MutationObserver(callback);
+    this._observer.observe(container, { attributes: true });
+  }
 
-    observer.observe(container, { attributes: true });
+  handleClassMutation(container) {
+    const isClosing = container.classList.contains(CSS_CLASSES.MOTION_CLOSING);
+    const isOpening = container.classList.contains(CSS_CLASSES.MOTION_OPENING);
+
+    if (isOpening) {
+      this._isDrawerOpen = true;
+      container.classList.remove(CSS_CLASSES.MOTION_OPENING);
+
+      return;
+    }
+
+    if (isClosing) {
+      const backdrop = this.template.querySelector(SELECTORS.BACKDROP);
+      this.animateBackdropClose(backdrop);
+
+      setTimeout(
+        function () {
+          this._isDrawerOpen = false;
+          container.classList.remove(CSS_CLASSES.MOTION_CLOSING);
+          this.disconnectObserver();
+        }.bind(this),
+        MOTION_DURATION
+      );
+    }
+  }
+
+  disconnectObserver() {
+    if (this._observer) {
+      this._observer.disconnect();
+      this._observer = null;
+    }
   }
 
   connectedCallback() {
     this.setUpMutationObserver();
+  }
+
+  disconnectedCallback() {
+    this.disconnectObserver();
   }
 }
