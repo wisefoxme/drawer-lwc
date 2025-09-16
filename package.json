@@ -5,6 +5,7 @@
   "publishConfig": {
     "access": "public"
   },
+  "license": "BSD-3-Clause",
   "description": "A drawer component for Salesforce Lightning Web Components (LWC) that provides a sleek and responsive sliding panel interface.",
   "repository": {
     "type": "git",
