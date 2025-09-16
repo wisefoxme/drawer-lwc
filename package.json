@@ -1,7 +1,7 @@
 {
   "name": "@wisefoxme/drawer-lwc",
   "private": false,
-  "version": "1.0.1",
+  "version": "1.0.0",
   "publishConfig": {
     "access": "public"
   },
