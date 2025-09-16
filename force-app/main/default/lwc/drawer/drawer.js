@@ -3,10 +3,10 @@ const MOTION_DURATION = 300;
 
 export default class Drawer extends LightningElement {
   @api label = "";
-  _isDrawerOpen = true;
+  _isDrawerOpen = false;
   _observer;
   selectedItem = null;
-  backdropCss = "drawer-backdrop drawer-backdrop_open";
+  backdropCss = "";
 
   @api
   get isDrawerOpen() {
