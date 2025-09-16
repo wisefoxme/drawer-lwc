@@ -20,6 +20,7 @@ const CSS_CLASSES = {
 
 export default class Drawer extends LightningElement {
   @api label = "";
+  @api drawerSize = 2;
   _isDrawerOpen = false;
   _observer;
   _drawerCloseResolver;
@@ -33,6 +34,20 @@ export default class Drawer extends LightningElement {
 
   set isDrawerOpen(value) {
     this._isDrawerOpen = !!value;
+  }
+
+  get calculatedDrawerClass() {
+    let size = parseInt(this.drawerSize, 10);
+
+    if (isNaN(size) || size < 1 || size > 12) {
+      size = 2;
+    }
+
+    return `slds-col slds-size_${size}-of-12 slds-theme_default`;
+  }
+
+  get calculatedContentClass() {
+    return `slds-col slds-size_${12 - this.drawerSize}-of-12`;
   }
 
   @api async open() {

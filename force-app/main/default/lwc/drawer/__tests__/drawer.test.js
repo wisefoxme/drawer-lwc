@@ -49,6 +49,99 @@ describe("c-drawer", () => {
       const div = element.shadowRoot.querySelector(SELECTORS.DRAWER);
       expect(div).toBeNull();
     });
+
+    describe("should render the sizes correctly based on drawerSize property", () => {
+      it("size 1", () => {
+        const element = createElement("c-drawer", {
+          is: Drawer
+        });
+        element.isDrawerOpen = true;
+        element.drawerSize = 1;
+
+        document.body.appendChild(element);
+
+        const div = element.shadowRoot.querySelector(SELECTORS.DRAWER);
+        expect(div.className).toContain("slds-size_1-of-12");
+      });
+
+      it("size 2", () => {
+        const element = createElement("c-drawer", {
+          is: Drawer
+        });
+        element.isDrawerOpen = true;
+        element.drawerSize = 2;
+
+        document.body.appendChild(element);
+
+        const div = element.shadowRoot.querySelector(SELECTORS.DRAWER);
+        expect(div.className).toContain("slds-size_2-of-12");
+      });
+
+      it("size 6", () => {
+        const element = createElement("c-drawer", {
+          is: Drawer
+        });
+        element.isDrawerOpen = true;
+        element.drawerSize = 6;
+
+        document.body.appendChild(element);
+
+        const div = element.shadowRoot.querySelector(SELECTORS.DRAWER);
+        expect(div.className).toContain("slds-size_6-of-12");
+      });
+
+      it("size 12", () => {
+        const element = createElement("c-drawer", {
+          is: Drawer
+        });
+        element.isDrawerOpen = true;
+        element.drawerSize = 12;
+
+        document.body.appendChild(element);
+
+        const div = element.shadowRoot.querySelector(SELECTORS.DRAWER);
+        expect(div.className).toContain("slds-size_12-of-12");
+      });
+
+      it("invalid size (e.g., 0) defaults to size 2", () => {
+        const element = createElement("c-drawer", {
+          is: Drawer
+        });
+        element.isDrawerOpen = true;
+        element.drawerSize = 0;
+
+        document.body.appendChild(element);
+
+        const div = element.shadowRoot.querySelector(SELECTORS.DRAWER);
+        expect(div.className).toContain("slds-size_2-of-12");
+      });
+
+      it("invalid size (e.g., 13) defaults to size 2", () => {
+        const element = createElement("c-drawer", {
+          is: Drawer
+        });
+        element.isDrawerOpen = true;
+        element.drawerSize = 13;
+
+        document.body.appendChild(element);
+
+        const div = element.shadowRoot.querySelector(SELECTORS.DRAWER);
+        expect(div.className).toContain("slds-size_2-of-12");
+      });
+
+      it("invalid size (e.g., 'abc') defaults to size 2", () => {
+        const element = createElement("c-drawer", {
+          is: Drawer
+        });
+        element.isDrawerOpen = true;
+        element.drawerSize = "abc";
+
+        document.body.appendChild(element);
+
+        const div = element.shadowRoot.querySelector(SELECTORS.DRAWER);
+        expect(div.className).toContain("slds-size_2-of-12");
+      });
+    });
   });
 
   describe("opening behavior", () => {

@@ -9,10 +9,7 @@
     aria-describedby="drawer-content"
   >
     <div class="slds-grid drawer-container" data-id="container">
-      <div
-        class="slds-col slds-size_1-of-6 slds-theme_default"
-        data-id="drawer"
-      >
+      <div class={calculatedDrawerClass} data-id="drawer">
         <div class="slds-grid slds-grid_vertical slds-var-p-around_medium">
           <div class="slds-col">
             <lightning-button-icon
@@ -31,7 +28,7 @@
         </div>
       </div>
       <div
-        class="slds-col slds-size_5-of-6"
+        class={calculatedContentClass}
         data-id="content"
         onclick={handleClose}
         aria-label="Click to close drawer"
