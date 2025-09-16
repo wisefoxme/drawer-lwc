@@ -9,7 +9,6 @@ on:
 jobs:
   runLWCTests:
     name: Run Lightning Web Component tests
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     container: salesforce/cli:latest-full
     steps:
