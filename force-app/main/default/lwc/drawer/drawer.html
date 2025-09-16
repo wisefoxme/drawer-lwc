@@ -4,6 +4,9 @@
     role="dialog"
     tabindex="-1"
     class="slds-modal slds-fade-in-open slds-modal_small"
+    aria-modal="true"
+    aria-labelledby="drawer-heading"
+    aria-describedby="drawer-content"
   >
     <div class="slds-grid drawer-container" data-id="container">
       <div
@@ -13,16 +16,16 @@
         <div class="slds-grid slds-grid_vertical slds-var-p-around_medium">
           <div class="slds-col">
             <lightning-button-icon
-              alternative-text="Close"
+              alternative-text="Close drawer"
               class="slds-float_right"
               data-id="close-button"
               icon-name="utility:close"
               onclick={handleClose}
-              title="Close"
+              title="Close drawer"
               variant="bare"
             ></lightning-button-icon>
           </div>
-          <div class="slds-col">
+          <div class="slds-col" id="drawer-content">
             <slot name="navigationSection"></slot>
           </div>
         </div>
@@ -31,8 +34,14 @@
         class="slds-col slds-size_5-of-6"
         data-id="content"
         onclick={handleClose}
+        aria-label="Click to close drawer"
       ></div>
     </div>
   </section>
-  <div class={backdropCss} data-id="backdrop" onclick={handleClose}></div>
+  <div
+    class={backdropCss}
+    data-id="backdrop"
+    onclick={handleClose}
+    aria-hidden="true"
+  ></div>
 </template>
