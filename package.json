@@ -5,14 +5,14 @@
   "publishConfig": {
     "access": "public"
   },
-  "description": "An app",
+  "description": "A drawer component for Salesforce Lightning Web Components (LWC) that provides a sleek and responsive sliding panel interface.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/@wisefoxme/drawer-lwc.git"
+    "url": "git+https://github.com/wisefoxme/drawer-lwc.git"
   },
   "author": {
-    "name": "John Doe",
-    "email": "john.doe@example.com"
+    "name": "Renato Oliveira",
+    "email": "renato.oliveira@dogeforce.com"
   },
   "engines": {
     "node": ">=22.0.0"
