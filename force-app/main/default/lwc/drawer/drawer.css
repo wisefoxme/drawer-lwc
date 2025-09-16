@@ -1,0 +1,42 @@
+.drawer-container {
+  height: 100vh;
+
+  /* transition from the left */
+  display: flex;
+  flex-direction: row;
+  transition: all 0.3s ease-in-out;
+}
+
+.drawer-motion_closing {
+  transform: translateX(-100%);
+  transition: all 0.3s ease-in-out;
+}
+
+.drawer-motion_opening {
+  transform: translateX(-100%);
+  transition: all 0.3s ease-in-out;
+}
+
+.drawer-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
+
+.drawer-backdrop_open {
+  display: block;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.drawer-backdrop-motion_opening {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.drawer-backdrop-motion_open {
+  opacity: 1;
+  transition: opacity 1s ease-in-out;
+}

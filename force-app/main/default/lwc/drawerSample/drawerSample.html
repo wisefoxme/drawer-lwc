@@ -1,0 +1,24 @@
+<template>
+  <div class="slds-box slds-theme_default">
+    <c-drawer>
+      <div slot="navigationSection">
+        <lightning-vertical-navigation selected-item={selectedItem}>
+          <lightning-vertical-navigation-section label={label}>
+            <template for:each={items} for:item="item">
+              <lightning-vertical-navigation-item
+                key={item.name}
+                label={item.label}
+                name={item.name}
+                onclick={handleItemClick}
+              ></lightning-vertical-navigation-item>
+            </template>
+          </lightning-vertical-navigation-section>
+        </lightning-vertical-navigation>
+      </div>
+    </c-drawer>
+    <lightning-button
+      label="Open Drawer"
+      onclick={openDrawer}
+    ></lightning-button>
+  </div>
+</template>

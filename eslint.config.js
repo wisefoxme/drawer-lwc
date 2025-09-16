@@ -27,7 +27,10 @@ module.exports = defineConfig([
   // LWC configuration for force-app/main/default/lwc
   {
     files: ["force-app/main/default/lwc/**/*.js"],
-    extends: [salesforceLwcConfig]
+    extends: [salesforceLwcConfig],
+    rules: {
+      "@lwc/lwc/no-async-operation": "off"
+    }
   },
 
   // LWC configuration with override for LWC test files
