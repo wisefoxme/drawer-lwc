@@ -15,6 +15,7 @@
             <lightning-button-icon
               alternative-text="Close"
               class="slds-float_right"
+              data-id="close-button"
               icon-name="utility:close"
               onclick={handleClose}
               title="Close"
@@ -26,8 +27,12 @@
           </div>
         </div>
       </div>
-      <div class="slds-col slds-size_5-of-6" data-id="content"></div>
+      <div
+        class="slds-col slds-size_5-of-6"
+        data-id="content"
+        onclick={handleClose}
+      ></div>
     </div>
   </section>
-  <div class={backdropCss} data-id="backdrop"></div>
+  <div class={backdropCss} data-id="backdrop" onclick={handleClose}></div>
 </template>

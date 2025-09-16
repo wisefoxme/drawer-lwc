@@ -48,22 +48,22 @@ export default class Drawer extends LightningElement {
       return;
     }
 
-    this.setupContentClickListener(elements.content);
     this.animateBackdropOpen(elements.backdrop);
     this.animateContainerOpen(elements.container);
 
     elements.drawer.focus();
   }
 
-  handleClose = () => {
+  handleClose() {
     this.setUpMutationObserver();
     this.dispatchCustomEvent("drawerclose");
 
     const container = this.template.querySelector(SELECTORS.CONTAINER);
+
     if (container) {
       container.classList.add(CSS_CLASSES.MOTION_CLOSING);
     }
-  };
+  }
 
   getElements() {
     return {
@@ -80,12 +80,6 @@ export default class Drawer extends LightningElement {
       composed: true
     });
     this.dispatchEvent(event);
-  }
-
-  setupContentClickListener(content) {
-    if (content) {
-      content.addEventListener("click", this.handleClose);
-    }
   }
 
   animateBackdropOpen(backdrop) {
