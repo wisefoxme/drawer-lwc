@@ -91,6 +91,7 @@ describe("c-drawer", () => {
     let element;
     const openHandler = jest.fn();
     const closeHandler = jest.fn();
+    let openPromise;
 
     beforeEach(() => {
       jest.useFakeTimers();
@@ -105,7 +106,7 @@ describe("c-drawer", () => {
       element.addEventListener("drawerclose", closeHandler);
 
       // Open the drawer before each test
-      element.open();
+      openPromise = element.open();
 
       jest.runAllTimers();
     });
@@ -158,6 +159,23 @@ describe("c-drawer", () => {
         SELECTORS.DRAWER
       );
       expect(divAfterAnimation).toBeNull();
+    });
+
+    it("resolves the open promise when the close button is clicked", async () => {
+      // Act: close the drawer
+      const closeButton = element.shadowRoot.querySelector(
+        SELECTORS.CLOSE_BUTTON
+      );
+      closeButton.click();
+
+      await Promise.resolve();
+      jest.runAllTimers();
+
+      // Asserts that the event was dispatched
+      expect(closeHandler).toHaveBeenCalled();
+
+      // Assert: promise resolves
+      await expect(openPromise).resolves.toBeUndefined();
     });
   });
 });

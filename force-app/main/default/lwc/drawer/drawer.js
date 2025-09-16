@@ -22,6 +22,7 @@ export default class Drawer extends LightningElement {
   @api label = "";
   _isDrawerOpen = false;
   _observer;
+  _drawerCloseResolver;
   selectedItem = null;
   backdropCss = "";
 
@@ -45,13 +46,25 @@ export default class Drawer extends LightningElement {
     const elements = this.getElements();
 
     if (!elements.container || !elements.drawer) {
-      return;
+      return Promise.reject(
+        new Error("Drawer: Missing required elements in the template.")
+      );
     }
 
     this.animateBackdropOpen(elements.backdrop);
     this.animateContainerOpen(elements.container);
 
     elements.drawer.focus();
+
+    if (this._drawerCloseResolver) {
+      return this._drawerCloseResolver;
+    }
+
+    return new Promise((resolve) => {
+      this._drawerCloseResolver = resolve;
+    }).then(() => {
+      this._drawerCloseResolver = null;
+    });
   }
 
   handleClose() {
@@ -160,8 +173,14 @@ export default class Drawer extends LightningElement {
       setTimeout(
         function () {
           this._isDrawerOpen = false;
+
           container.classList.remove(CSS_CLASSES.MOTION_CLOSING);
           this.disconnectObserver();
+
+          if (this._drawerCloseResolver) {
+            this._drawerCloseResolver();
+            this._drawerCloseResolver = null;
+          }
         }.bind(this),
         MOTION_DURATION
       );
