@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/wisefoxme/drawer-lwc/compare/v1.1.0...v1.2.0) (2025-09-16)
+
+
+### Features
+
+* adds size API that uses the grid system from SLDS ([caeb2d3](https://github.com/wisefoxme/drawer-lwc/commit/caeb2d34ef584530ef915820fbbd4daf2c459a6b))
+
 ## [1.1.0](https://github.com/wisefoxme/drawer-lwc/compare/v1.0.1...v1.1.0) (2025-09-16)
 
 
