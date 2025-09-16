@@ -17,3 +17,23 @@ A customizable drawer component for Lightning Experience that creates a full-vie
 ## Usage
 
 Import and use the drawer component in your Lightning Web Components to create slide-out panels for navigation, forms, or any custom content that requires a focused user experience.
+
+The component takes advantage of the slots feature, allowing you to insert any custom content inside the drawer.
+
+```html
+<!-- this sample component implements the drawer -->
+<template>
+  <div class="slds-box slds-theme_default">
+    <c-drawer>
+      <!-- the drawer content goes here -->
+      <!-- this is what is rendered inside the drawer -->
+    </c-drawer>
+    <!-- use something to call the drawer's .open
+      method, such as a button -->
+    <lightning-button
+      label="Open the drawer"
+      onclick="{openDrawer}"
+    ></lightning-button>
+  </div>
+</template>
+```
