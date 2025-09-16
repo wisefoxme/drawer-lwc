@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/wisefoxme/drawer-lwc/compare/v1.0.0...v1.0.1) (2025-09-16)
+
+
+### Bug Fixes
+
+* fixes package name and author tags ([c7a1e62](https://github.com/wisefoxme/drawer-lwc/commit/c7a1e62c7537397470db0c22ff19d3c85cc99f6b))
+
 ## 1.0.0 (2025-09-16)
 
 
