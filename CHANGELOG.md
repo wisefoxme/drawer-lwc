@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/wisefoxme/drawer-lwc/compare/v1.3.0...v1.4.0) (2025-09-17)
+
+
+### Features
+
+* makes the .focus API public and adds unit test ([2c14ad4](https://github.com/wisefoxme/drawer-lwc/commit/2c14ad45e3c1790cf0ee4f0d8ef46173b8f76133))
+
 ## [1.3.0](https://github.com/wisefoxme/drawer-lwc/compare/v1.2.0...v1.3.0) (2025-09-17)
 
 
