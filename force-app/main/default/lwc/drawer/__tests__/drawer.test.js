@@ -254,6 +254,29 @@ describe("c-drawer", () => {
       expect(divAfterAnimation).toBeNull();
     });
 
+    it("closes the drawer when the .close() method is called", async () => {
+      // Act
+      element.close();
+
+      await Promise.resolve();
+
+      // Assert
+      const div = element.shadowRoot.querySelector(SELECTORS.DRAWER);
+      expect(div).not.toBeNull(); // Drawer is still in DOM until animation ends
+
+      // Asserts that the event was dispatched
+      expect(closeHandler).toHaveBeenCalled();
+
+      jest.runAllTimers();
+
+      // After animation ends, the drawer should be removed from the DOM
+      await Promise.resolve();
+      const divAfterAnimation = element.shadowRoot.querySelector(
+        SELECTORS.DRAWER
+      );
+      expect(divAfterAnimation).toBeNull();
+    });
+
     it("resolves the open promise when the close button is clicked", async () => {
       // Act: close the drawer
       const closeButton = element.shadowRoot.querySelector(

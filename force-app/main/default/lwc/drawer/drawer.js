@@ -82,6 +82,10 @@ export default class Drawer extends LightningElement {
     });
   }
 
+  @api async close() {
+    this.handleClose();
+  }
+
   handleClose() {
     this.setUpMutationObserver();
     this.dispatchCustomEvent("drawerclose");
