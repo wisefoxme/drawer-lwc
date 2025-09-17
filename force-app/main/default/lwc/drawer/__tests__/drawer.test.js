@@ -50,6 +50,26 @@ describe("c-drawer", () => {
       expect(div).toBeNull();
     });
 
+    it("focus is set to the drawer when opened", async () => {
+      // Arrange
+      const element = createElement("c-drawer", {
+        is: Drawer
+      });
+      element.isDrawerOpen = true;
+
+      // Act
+      document.body.appendChild(element);
+
+      await Promise.resolve();
+
+      element.focus();
+
+      await Promise.resolve();
+
+      // Assert
+      expect(document.activeElement.tagName.toLowerCase()).toBe("c-drawer");
+    });
+
     describe("should render the sizes correctly based on drawerSize property", () => {
       it("size 1", () => {
         const element = createElement("c-drawer", {

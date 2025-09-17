@@ -1,12 +1,13 @@
 <template>
   <section
+    aria-describedby="drawer-content"
+    aria-labelledby="drawer-heading"
+    aria-modal="true"
+    class="slds-modal slds-fade-in-open slds-modal_small"
+    data-id="drawer-section"
     lwc:if={isDrawerOpen}
     role="dialog"
     tabindex="-1"
-    class="slds-modal slds-fade-in-open slds-modal_small"
-    aria-modal="true"
-    aria-labelledby="drawer-heading"
-    aria-describedby="drawer-content"
   >
     <div class="slds-grid drawer-container" data-id="container">
       <div class={calculatedDrawerClass} data-id="drawer">
@@ -23,7 +24,7 @@
             ></lightning-button-icon>
           </div>
           <div class="slds-col" id="drawer-content">
-            <slot name="navigationSection"></slot>
+            <slot data-id="navigationSection" name="navigationSection"></slot>
           </div>
         </div>
       </div>

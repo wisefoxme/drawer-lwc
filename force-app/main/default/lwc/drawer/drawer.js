@@ -222,8 +222,21 @@ export default class Drawer extends LightningElement {
     }
   }
 
+  @api
+  focus() {
+    // query the first focusable element inside the drawer
+    const focusable = this.template.querySelector("section");
+
+    if (!focusable) {
+      return;
+    }
+
+    focusable.focus();
+  }
+
   connectedCallback() {
     this.setUpMutationObserver();
+    this.focus();
   }
 
   disconnectedCallback() {
