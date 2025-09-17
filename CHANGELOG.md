@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.0](https://github.com/wisefoxme/drawer-lwc/compare/v1.2.0...v1.3.0) (2025-09-17)
+
+
+### Features
+
+* adds `.close` API call ([bd62b36](https://github.com/wisefoxme/drawer-lwc/commit/bd62b3691ba367da538d3c1fed36e322803976f7))
+* adds drawer close on Escape key press ([a12913c](https://github.com/wisefoxme/drawer-lwc/commit/a12913c9dc8052b45927f65a8f3f724d27b05155))
+
 ## [1.2.0](https://github.com/wisefoxme/drawer-lwc/compare/v1.1.0...v1.2.0) (2025-09-16)
 
 
