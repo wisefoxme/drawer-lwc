@@ -75,6 +75,15 @@ export default class Drawer extends LightningElement {
       return this._drawerCloseResolver;
     }
 
+    // add event listener for the ESC key to close the drawer
+    const escKeyListener = (event) => {
+      if (event.key === "Escape" || event.key === "Esc") {
+        this.close();
+      }
+    };
+
+    this.template.addEventListener("keydown", escKeyListener);
+
     return new Promise((resolve) => {
       this._drawerCloseResolver = resolve;
     }).then(() => {
